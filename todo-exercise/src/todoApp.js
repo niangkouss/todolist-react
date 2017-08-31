@@ -20,12 +20,22 @@ export default class todoApp extends React.Component{
         todos.push(todo);
         this.setState({todos});
     }
+    toggle=(id)=>{
+        let todos = this.state.todos;
+        todos= todos.map(todo=>{
+            if(todo.id == id){
+                todo.completed = !todo.completed;
+            }
+            return todo;
+        })
+        this.setState({todos})
+    }
     render(){
         let main =(
             <ul className="list-group">
                 {
 
-                    this.state.todos.map((todo,index)=><Item todo={todo}/>)
+                    this.state.todos.map((todo,index)=><Item todo={todo} toggle={this.toggle}/>)
                 }
             </ul>
         )
