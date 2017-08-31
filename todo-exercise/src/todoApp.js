@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Header from './todoHeader';
 import Item from './todoItem';
 import Footer from './todoFooter'
+import * as filterTypes from './filterTypes'
 
 export default class todoApp extends React.Component{
     constructor(props){
@@ -11,7 +12,8 @@ export default class todoApp extends React.Component{
             todos:[
                 {id:Date.now()+Math.random(),title:'1',completed:false},
                 {id:Date.now()+Math.random(),title:'2',completed:false}
-            ]
+            ],
+            filterType:filterTypes.ALL
         };
     }
     addTodo=(todo)=>{
@@ -39,15 +41,31 @@ export default class todoApp extends React.Component{
         })
         this.setState({todos})
     }
+    changeFilterType=(filterType)=>{
+        this.setState({filterType})
+    }
     remove=(id)=>{
         let todos = this.state.todos;
         let index =todos.findIndex(todo=>todo.id == id);
         todos.splice(index,1);
         this.setState({todos});
     }
+    clearCompleted=()=>{
+        let todos = this.state.todos;
+        todos =todos.filter(todo=>!todo.completed)
+        this.setState({todos})
+    }
     render(){
         let todos = this.state.todos;
         let activeTodoCount =todos.reduce((count,todo)=>count+(todo.completed?0:1),0);
+        let showTodo =todos.filter(todo=>{
+            switch (this.state.filterType){
+                case filterTypes.ACTIVE: return !todo.completed;
+                case filterTypes.COMPLETED: return todo.completed;
+                default : return true;
+            }
+        })
+        let completedTodoCount = todos.length - activeTodoCount;
         let main =(
             <ul className="list-group">
                 {
@@ -58,7 +76,7 @@ export default class todoApp extends React.Component{
 
                 {
 
-                    this.state.todos.map((todo,index)=><Item todo={todo} toggle={this.toggle} remove={this.remove}/>)
+                    showTodo.map((todo,index)=><Item todo={todo} toggle={this.toggle} remove={this.remove}/>)
                 }
             </ul>
         )
@@ -73,7 +91,8 @@ export default class todoApp extends React.Component{
                                <div className="panel-body">
                                    {main}
                                </div>
-                               <div className="panel-footer">
+                               <div className="panel-footer" >
+                                   <Footer activeTodoCount={activeTodoCount} changeFilterType={this.changeFilterType} filterType={this.state.filterType} clearCompleted={this.clearCompleted} completedTodoCount={completedTodoCount}/>
                                </div>
                            </div>
                        </div>
