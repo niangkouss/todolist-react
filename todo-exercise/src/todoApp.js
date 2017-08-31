@@ -30,12 +30,35 @@ export default class todoApp extends React.Component{
         })
         this.setState({todos})
     }
+    toggleAll=(event)=>{
+        let checked = event.target.checked;
+        let todos =this.state.todos;
+        todos = todos.map(todo=>{
+            todo.completed = checked;
+            return todo;
+        })
+        this.setState({todos})
+    }
+    remove=(id)=>{
+        let todos = this.state.todos;
+        let index =todos.findIndex(todo=>todo.id == id);
+        todos.splice(index,1);
+        this.setState({todos});
+    }
     render(){
+        let todos = this.state.todos;
+        let activeTodoCount =todos.reduce((count,todo)=>count+(todo.completed?0:1),0);
         let main =(
             <ul className="list-group">
                 {
+                    todos.length>0?(<li className="list-group-item">
+                        <input type="checkbox" checked={activeTodoCount===0} onChange={this.toggleAll}/>{activeTodoCount===0?'全部取消':'全部选中'}
+                    </li>):void 0
+                }
 
-                    this.state.todos.map((todo,index)=><Item todo={todo} toggle={this.toggle}/>)
+                {
+
+                    this.state.todos.map((todo,index)=><Item todo={todo} toggle={this.toggle} remove={this.remove}/>)
                 }
             </ul>
         )

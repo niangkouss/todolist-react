@@ -13,7 +13,7 @@ export default class panelItem extends React.Component{
                         {todo.title}
                     </div>
                     <div className="col-md-1">
-                        <button className="btn btn-danger btn-xs">&times;</button>
+                        <button className="btn btn-danger btn-xs" onClick={()=>this.props.remove(todo.id)}>&times;</button>
                     </div>
                 </div>
             </li>
