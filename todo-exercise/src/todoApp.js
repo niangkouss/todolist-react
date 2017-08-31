@@ -37,7 +37,7 @@ export default class todoApp extends React.Component{
 
                 {
 
-                    showTodo.map((todo,index)=><Item todo={todo} toggle={this.toggle} remove={this.props.model.remove}/>)
+                    showTodo.map((todo,index)=><Item todo={todo} toggle={this.props.model.toggle} remove={this.props.model.remove}/>)
                 }
             </ul>
         )
