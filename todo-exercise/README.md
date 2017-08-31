@@ -12,3 +12,4 @@ yarn start
 - 引入bootstrap
 - src下创建index.js,引入todoApp,搭建todoList的主体结构
 - 将todoAPP拆分成子组件,分别搭建子组件
+- mock数据,写在react的状态里面

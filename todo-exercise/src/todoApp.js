@@ -1,14 +1,26 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import header from './todoHeader';
+import Header from './todoHeader';
 import Item from './todoItem';
-import footer from './todoFooter'
+import Footer from './todoFooter'
 
 export default class todoApp extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            todos:[
+                {id:Date.now()+Math.random(),title:'1',completed:false},
+                {id:Date.now()+Math.random(),title:'2',completed:false}
+            ]
+        };
+    }
     render(){
         let main =(
             <ul className="list-group">
-                <Item/>
+                {
+
+                    this.state.todos.map((todo,index)=><Item todo={todo}/>)
+                }
             </ul>
         )
         return (
@@ -17,13 +29,12 @@ export default class todoApp extends React.Component{
                        <div className="col-md-6 col-md-offset-3">
                            <div className="panel panel-default">
                                <div className="panel-heading">
-                                   <header/>
+                                   <Header/>
                                </div>
                                <div className="panel-body">
                                    {main}
                                </div>
                                <div className="panel-footer">
-                                   <footer/>
                                </div>
                            </div>
                        </div>
