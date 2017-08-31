@@ -14,6 +14,12 @@ export default class todoApp extends React.Component{
             ]
         };
     }
+    addTodo=(todo)=>{
+        let todos = this.state.todos;
+        todo = {id:Date.now()+Math.random(),completed:false,...todo}
+        todos.push(todo);
+        this.setState({todos});
+    }
     render(){
         let main =(
             <ul className="list-group">
@@ -29,7 +35,7 @@ export default class todoApp extends React.Component{
                        <div className="col-md-6 col-md-offset-3">
                            <div className="panel panel-default">
                                <div className="panel-heading">
-                                   <Header/>
+                                   <Header addTodo={this.addTodo}/>
                                </div>
                                <div className="panel-body">
                                    {main}
